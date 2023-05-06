@@ -21,4 +21,14 @@ router.get(`/:id`, (req, res) => {
   }
 });
 
+router.post(`/`, (req, res) => {
+  try {
+    const { title } = req.body;
+    const data = getSkillById(title);
+    res.send(data);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
 module.exports = router;
