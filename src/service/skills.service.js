@@ -3,13 +3,12 @@ const arr = [
   { id: 2, title: 'typescript' },
   { id: 3, title: 'mongodb' },
   { id: 4, title: 'mongoose' },
-  { id: 5, title: 'pg' }
+  { id: 5, title: 'pg' },
 ];
 
-const fs = require(`fs`)
+const fs = require(`fs`);
 
-const path = `./storage/storage.json`
-
+const path = `./storage/storage.json`;
 
 function getAllSkills() {
   return arr;
@@ -21,8 +20,13 @@ function getSkillById(id) {
 }
 
 function createSkill(title) {
-  const filtered = arr.filter(elem => elem.title == id);
-  return filtered;
+  const data = JSON.parse(fs.readFileSync(path));
+  data.push({
+    id: data.length + 1,
+    title : title
+  });
+   fs.writeFileSync(path, JSON.stringify(data));
+  return data
 }
 
-module.exports = { getAllSkills, getSkillById };
+module.exports = { getAllSkills, getSkillById, createSkill };
