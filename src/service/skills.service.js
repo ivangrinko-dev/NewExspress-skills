@@ -23,10 +23,24 @@ function createSkill(title) {
   const data = JSON.parse(fs.readFileSync(path));
   data.push({
     id: data.length + 1,
-    title : title
+    title: title
   });
-   fs.writeFileSync(path, JSON.stringify(data));
-  return data
+  fs.writeFileSync(path, JSON.stringify(data));
+  return data;
 }
 
-module.exports = { getAllSkills, getSkillById, createSkill };
+function putSkillById(id, title) {
+  const data = JSON.parse(fs.readFileSync(path));
+  const filtered = data.filter((elem) => elem.id == id);
+  if (filtered.length != data.length) {
+    filtered.push({
+      id,
+      title,
+     
+    });
+  
+  fs.writeFileSync(path, JSON.stringify(filtered));
+  return filtered;
+}
+
+module.exports = { getAllSkills, getSkillById, createSkill, putSkillById };
