@@ -36,11 +36,16 @@ function putSkillById(id, title) {
     filtered.push({
       id,
       title,
-     
     });
-  
-  fs.writeFileSync(path, JSON.stringify(filtered));
-  return filtered;
-}
+    fs.writeFileSync(path, JSON.stringify(filtered));
+    return filtered;
+  }
 
-module.exports = { getAllSkills, getSkillById, createSkill, putSkillById };
+  function deleteSkillById(id) {
+    const data = JSON.parse(fs.readFileSync(path));
+    const filtered = data.filter((elem) => elem.id != id);
+    fs.writeFileSync(path, JSON.stringify(filtered));
+    return filtered;
+  }
+
+  module.exports = { getAllSkills, getSkillById, createSkill, putSkillById, deleteSkillById };
