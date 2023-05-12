@@ -12,7 +12,6 @@ function getSkillById(id) {
   const data = JSON.parse(fs.readFileSync(path));
   const filtered = data.filter(elem => elem.id == id);
   fs.writeFileSync(path, JSON.stringify(filtered));
-
   return filtered;
 }
 
