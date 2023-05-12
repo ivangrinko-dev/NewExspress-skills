@@ -1,5 +1,7 @@
 const express = require(`express`);
-const { getAllSkills, getSkillById, createSkill, putSkillById, deleteSkillById } = require(`../service/skills.service`);
+const { getAllSkills, getSkillById, createSkill, upSkillData, deleteSkill } = require(`../service/skills.service`);
+const { isValidId } = require(`../helpers/validator`);
+
 const router = express.Router();
 
 router.get(`/`, (req, res) => {
@@ -11,7 +13,7 @@ router.get(`/`, (req, res) => {
   }
 });
 
-router.get(`/:id`, (req, res) => {
+router.get(`/:id`, isValidId, (req, res) => {
   try {
     const { id } = req.params;
     const data = getSkillById(id);
@@ -31,22 +33,21 @@ router.post(`/`, (req, res) => {
   }
 });
 
-
-router.put(`/:id`, (req, res) => {
+router.put('/:id', isValidId, (request, response) => {
   try {
-    const { id } = req.params;
-    const { title } = req.body;
-    const data = putSkillById(id, title);
-    res.send(data);
+    const { id } = request.params;
+    const { title } = request.body;
+    const data = upSkillData(id, title);
+    response.status(200).send(data);
   } catch (error) {
-    res.send(error.message);
+    response.status(404).send(error.message);
   }
 });
 
-router.delete(`/:id`, (req, res) => {
+router.delete(`/:id`, isValidId, (req, res) => {
   try {
     const { id } = req.params;
-    const data = deleteSkillById(id);
+    const data = deleteSkill(id);
     res.send(data);
   } catch (error) {
     res.send(error.message);
